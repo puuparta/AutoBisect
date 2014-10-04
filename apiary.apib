@@ -1,0 +1,47 @@
+FORMAT: 1A
+HOST: http://www.stnt.matic.mil
+
+# E2O API
+Express To Orbit API provides a *two way communication channel to SGINT and MASINT Reconnaissance satellite on Low Earth Orbit* with use of Alien Ionosphere Sound Pressure particle projection.
+
+# Group Satellites
+Satellites related resources of the **Satellites API**
+
+## Satellites Collection [/satellites]
+### List all Satellites [GET]
++ Response 200 (application/json)
+
+        [{
+          "id": 1, "nat": "RUS", "shnd" : "09FF-04EE-1101"
+        }, {
+          "id": 2, "nat": "GB", "shnd" : "09FF-00A2-FFFF"
+        }]
+
+### Create a Command to be send from area queue [POST]
++ Request (application/json)
+
+        { area: "one-two", type: "shock", trgt_id: "1111-1111-1111-1111", cmd-verb : "inject", cmd-body: "memcpy ( &cmd_str_copy, &cmd_str, sizeof(cmd_str) );" }
+
++ Response 201 (application/json)
+
+        { "id": 1200, "response": "FFFF-0000" }
+
+## Command [/commands/{id}]
+A single Command object from satellite with all its details
+
++ Parameters
+    + id (required, number, `1`) ... Numeric `id` of the Command to perform action with. Has example value.
+
+### Retrieve a Command [GET]
++ Response 200 (application/json)
+
+    + Header
+
+            X-Sat-Cmd: The Value
+
+    + Body
+
+            { "id": 1200, "response": "line:82;cmd_str={shock, lat:0, lon:0, bearing:11, alt:54, trgt_id:1200-1111-1111-1111}" }
+
+### Remove a Command [DELETE]
++ Response 204
